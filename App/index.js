@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar, SafeAreaView } from 'react-native';
 import Row from './Components/Row';
 import Button from './Components/Button';
+import Calculator,{initialState} from './Util/Calculator';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,22 +25,11 @@ const styles = StyleSheet.create({
 
 export default class App extends React.Component {
 
-    state = {
-        currentValue: '0',
-    }
+    state = initialState;
     handelTap = (type, value) => {
         this.setState(state => {
-
-            if (type === 'number') {
-                if (state.currentValue === "0") {
-                    return {
-                        currentValue: `${value}`
-                    }
-                }
-                return {
-                    currentValue: `${state.currentValue}${value}`
-                }
-            }
+          return  Calculator(type,value,state);
+            
         })
     }
     render() {
@@ -51,10 +41,10 @@ export default class App extends React.Component {
 
                     {/* 1st row */}
                     <Row>
-                        <Button text="AC" theme="secondary" onPress={() => alert('to Do')} />
-                        <Button text="+/-" theme="secondary" onPress={() => alert('to Do')} />
-                        <Button text="%" theme="secondary" onPress={() => alert('to Do')} />
-                        <Button text="/" theme="accent" onPress={() => alert('to Do')} />
+                        <Button text="AC" theme="secondary" onPress={() => this.handelTap("clear")} />
+                        <Button text="+/-" theme="secondary" onPress={() => this.handelTap("posneg")} />
+                        <Button text="%" theme="secondary" onPress={() => this.handelTap("percentage")}/>
+                        <Button text="/" theme="accent" onPress={() => this.handelTap('operator', "/")} />
                     </Row>
 
                     {/* 2nd row */}
@@ -62,7 +52,7 @@ export default class App extends React.Component {
                         <Button text="7" onPress={() => this.handelTap('number', 7)} />
                         <Button text="8" onPress={() => this.handelTap('number', 8)} />
                         <Button text="9" onPress={() => this.handelTap('number', 9)} />
-                        <Button text="x" theme="accent" onPress={() => alert('to Do')} />
+                        <Button text="x" theme="accent" onPress={() =>this.handelTap('operator', "*")} />
                     </Row>
 
                     {/* 3rd Row */}
@@ -70,7 +60,7 @@ export default class App extends React.Component {
                         <Button text="4" onPress={() => this.handelTap('number', 4)} />
                         <Button text="5" onPress={() => this.handelTap('number', 5)} />
                         <Button text="6" onPress={() => this.handelTap('number', 6)} />
-                        <Button text="-" theme="accent" onPress={() => alert('to Do')} />
+                        <Button text="-" theme="accent" onPress={() => this.handelTap('operator', "-")} />
                     </Row>
 
                     {/* 4th row */}
@@ -78,14 +68,14 @@ export default class App extends React.Component {
                         <Button text="1" onPress={() => this.handelTap('number', 1)} />
                         <Button text="2" onPress={() => this.handelTap('number', 2)} />
                         <Button text="3" onPress={() => this.handelTap('number', 3)} />
-                        <Button text="+" theme="accent" onPress={() => alert('to Do')} />
+                        <Button text="+" theme="accent" onPress={() => this.handelTap('operator', "+")} />
                     </Row>
 
                     {/* 5th row */}
                     <Row>
                         <Button text="0" size='double' onPress={() => this.handelTap('number', 0)} />
                         <Button text="." onPress={() => this.handelTap('number', ".")} />
-                        <Button text="=" theme="accent" onPress={() => alert('to Do')} />
+                        <Button text="=" theme="accent" onPress={() => this.handelTap('equal')} />
 
                     </Row>
                 </SafeAreaView>
